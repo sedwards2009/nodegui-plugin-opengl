@@ -28,7 +28,8 @@ class DLL_EXPORT QOpenGLVertexArrayObjectWrap
 
   Napi::Value bind(const Napi::CallbackInfo& info);
   Napi::Value create(const Napi::CallbackInfo& info);
-  // void 	destroy()
+  Napi::Value delete_(const Napi::CallbackInfo& info);
+  Napi::Value destroy(const Napi::CallbackInfo& info);
   // bool 	isCreated() const
   // GLuint 	objectId() const
   Napi::Value release(const Napi::CallbackInfo& info);

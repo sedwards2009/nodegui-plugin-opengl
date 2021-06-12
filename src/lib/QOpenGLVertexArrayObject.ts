@@ -20,6 +20,15 @@ export class QOpenGLVertexArrayObject extends Component {
         return this.native.create();
     }
 
+    delete(): void {
+        this.native.delete();
+        this.native = null;
+    }
+
+    destroy(): void {
+        this.native.destroy();
+    }
+
     release(): void {
         this.native.release();
     }

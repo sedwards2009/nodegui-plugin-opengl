@@ -244,14 +244,22 @@ class GLWidget extends EventEmitter {
 
   cleanup(): void {
     log('cleanup();');
-    // if (this._program == null) {
-    //     return;
-    // }
-    // this._widget.makeCurrent();
-    // this._logoVbo.destroy();
-    // this._program.destroy();
-    // this._program = null;
-    // this._widget.doneCurrent();
+    if (this._program == null) {
+        return;
+    }
+    this._widget.makeCurrent();
+
+    this._logoVbo.destroy();
+    this._logoVbo.delete();
+    this._logoVbo = null;
+
+    this._vao.delete();
+    this._vao = null;
+
+    this._program.delete();
+    this._program = null;
+
+    this._widget.doneCurrent();
   }
 
   private _initializeGL(): void {

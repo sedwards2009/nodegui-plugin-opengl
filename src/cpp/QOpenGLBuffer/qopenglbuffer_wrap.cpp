@@ -15,6 +15,7 @@ Napi::Object QOpenGLBufferWrap::init(Napi::Env env, Napi::Object exports) {
                    InstanceMethod("bind", &QOpenGLBufferWrap::bind),
                    InstanceMethod("bufferId", &QOpenGLBufferWrap::bufferId),
                    InstanceMethod("create", &QOpenGLBufferWrap::create),
+                   InstanceMethod("delete", &QOpenGLBufferWrap::delete_),
                    InstanceMethod("destroy", &QOpenGLBufferWrap::destroy),
                    InstanceMethod("release", &QOpenGLBufferWrap::release),
                    InstanceMethod("size", &QOpenGLBufferWrap::size),
@@ -69,6 +70,15 @@ Napi::Value QOpenGLBufferWrap::create(const Napi::CallbackInfo& info) {
 
   bool result = this->instance->create();
   return Napi::Boolean::New(env, result);
+}
+
+Napi::Value QOpenGLBufferWrap::delete_(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  delete this->instance;
+  this->instance = nullptr;
+  return env.Null();
 }
 
 Napi::Value QOpenGLBufferWrap::destroy(const Napi::CallbackInfo& info) {

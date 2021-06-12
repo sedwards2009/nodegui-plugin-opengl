@@ -27,6 +27,7 @@ class DLL_EXPORT QOpenGLBufferWrap
   Napi::Value bind(const Napi::CallbackInfo& info);
   Napi::Value bufferId(const Napi::CallbackInfo& info);
   Napi::Value create(const Napi::CallbackInfo& info);
+  Napi::Value delete_(const Napi::CallbackInfo& info);
   Napi::Value destroy(const Napi::CallbackInfo& info);
   Napi::Value release(const Napi::CallbackInfo& info);
   Napi::Value size(const Napi::CallbackInfo& info);

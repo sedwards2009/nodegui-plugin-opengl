@@ -31,6 +31,7 @@ class DLL_EXPORT QOpenGLShaderProgramWrap
   Napi::Value attributeLocation(const Napi::CallbackInfo& info);
   Napi::Value bind(const Napi::CallbackInfo& info);
   Napi::Value bindAttributeLocation(const Napi::CallbackInfo& info);
+  Napi::Value delete_(const Napi::CallbackInfo& info);
   Napi::Value disableAttributeArray(const Napi::CallbackInfo& info);
   Napi::Value enableAttributeArray(const Napi::CallbackInfo& info);
   Napi::Value link(const Napi::CallbackInfo& info);

@@ -37,6 +37,11 @@ export class QOpenGLShaderProgram extends Component {
         return this.native.bind();
     }
 
+    delete(): void {
+        this.native.delete();
+        this.native = null;
+    }
+
     link(): boolean {
         return this.native.link();
     }

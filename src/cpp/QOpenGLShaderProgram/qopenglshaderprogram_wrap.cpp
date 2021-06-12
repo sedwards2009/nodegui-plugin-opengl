@@ -22,6 +22,8 @@ Napi::Object QOpenGLShaderProgramWrap::init(Napi::Env env,
        InstanceMethod("bind", &QOpenGLShaderProgramWrap::bind),
        InstanceMethod("bindAttributeLocation",
                       &QOpenGLShaderProgramWrap::bindAttributeLocation),
+       InstanceMethod("delete",
+                      &QOpenGLShaderProgramWrap::delete_),
        InstanceMethod("disableAttributeArray",
                       &QOpenGLShaderProgramWrap::disableAttributeArray),
        InstanceMethod("enableAttributeArray",
@@ -169,6 +171,15 @@ Napi::Value QOpenGLShaderProgramWrap::attributeLocation(
       QString::fromStdString(info[0].As<Napi::String>().Utf8Value());
   auto result = this->instance->attributeLocation(attribute);
   return Napi::Number::New(env, result);
+}
+
+Napi::Value QOpenGLShaderProgramWrap::delete_(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  delete this->instance;
+  this->instance = nullptr;
+  return env.Null();
 }
 
 Napi::Value QOpenGLShaderProgramWrap::release(const Napi::CallbackInfo& info) {

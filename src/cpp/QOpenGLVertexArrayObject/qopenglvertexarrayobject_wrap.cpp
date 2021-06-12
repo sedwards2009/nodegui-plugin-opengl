@@ -14,6 +14,8 @@ Napi::Object QOpenGLVertexArrayObjectWrap::init(Napi::Env env,
       env, CLASSNAME,
       {InstanceMethod("bind", &QOpenGLVertexArrayObjectWrap::bind),
        InstanceMethod("create", &QOpenGLVertexArrayObjectWrap::create),
+       InstanceMethod("delete", &QOpenGLVertexArrayObjectWrap::delete_),
+       InstanceMethod("destroy", &QOpenGLVertexArrayObjectWrap::destroy),
        InstanceMethod("release", &QOpenGLVertexArrayObjectWrap::release),
        COMPONENT_WRAPPED_METHODS_EXPORT_DEFINE(QOpenGLVertexArrayObjectWrap)});
   constructor = Napi::Persistent(func);
@@ -78,6 +80,25 @@ Napi::Value QOpenGLVertexArrayObjectWrap::create(
 
   bool result = this->instance->create();
   return Napi::Boolean::New(env, result);
+}
+
+Napi::Value QOpenGLVertexArrayObjectWrap::delete_(
+    const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  delete this->instance;
+  this->instance = nullptr;
+  return env.Null();
+}
+
+Napi::Value QOpenGLVertexArrayObjectWrap::destroy(
+    const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  this->instance->destroy();
+  return env.Null();
 }
 
 Napi::Value QOpenGLVertexArrayObjectWrap::release(
