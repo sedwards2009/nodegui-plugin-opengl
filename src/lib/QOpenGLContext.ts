@@ -1,10 +1,25 @@
+import { EventEmitter } from 'events';
 import { checkIfNativeElement, NativeElement, Component, QObject } from '@nodegui/nodegui';
 
 import addon from './utils/addon';
 import { QOpenGLExtraFunctions } from './QOpenGLExtraFunctions';
 
+// TODO: Get this from nodegui directly.
+function noop() {}
+function wrapWithActivateUvLoop<T extends Function>(func: T): T {
+    const fn = (...args: any[]): any => {
+        const activateUvLoop = (process as any).activateUvLoop || noop;
+        activateUvLoop();
+        return func(...args);
+    };
+    return fn as any;
+}
+
+
 export class QOpenGLContext extends Component {
     native: NativeElement;
+
+    private emitter: EventEmitter;
 
     constructor(arg?: NativeElement | QObject) {
         super();
@@ -18,6 +33,22 @@ export class QOpenGLContext extends Component {
             } else {
                 this.native = new addon.QOpenGLContext();
             }
+        }
+
+        this.emitter = new EventEmitter();
+        this.emitter.emit = wrapWithActivateUvLoop(this.emitter.emit.bind(this.emitter));
+        this.native.injectNodeEventEmitter(this.emitter.emit);
+    }
+
+    addEventListener(eventType: OpenGLContextEventTypes, callback: () => void): void {
+        this.emitter.addListener(eventType, callback);
+    }
+
+    removeEventListener(eventType: OpenGLContextEventTypes, callback: () => void): void {
+        if (callback != null) {
+            this.emitter.removeListener(eventType, callback);
+        } else {
+            this.emitter.removeAllListeners(eventType);
         }
     }
 
@@ -43,4 +74,8 @@ export class QOpenGLContext extends Component {
     static currentContext(): QOpenGLContext {
         return new QOpenGLContext(addon.QOpenGLContext.currentContext());
     }
+}
+
+export enum OpenGLContextEventTypes {
+    'AboutToBeDestroyed' = 'AboutToBeDestroyed'
 }

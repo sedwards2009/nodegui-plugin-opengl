@@ -16,6 +16,7 @@ class DLL_EXPORT QOpenGLContextWrap
  private:
   QPointer<QOpenGLContext> instance;
   bool isOwnsInstance;
+  Napi::FunctionReference emitOnNode;
 
  public:
   static Napi::Object init(Napi::Env env, Napi::Object exports);
@@ -24,6 +25,9 @@ class DLL_EXPORT QOpenGLContextWrap
   QOpenGLContext* getInternalInstance();
   // class constructor
   static Napi::FunctionReference constructor;
+
+  Napi::Value injectNodeEventEmitter(const Napi::CallbackInfo& info);
+
   // wrapped methods
 
   // TODO

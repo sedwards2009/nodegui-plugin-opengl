@@ -12,7 +12,8 @@ Napi::Object QOpenGLContextWrap::init(Napi::Env env, Napi::Object exports) {
   char CLASSNAME[] = "QOpenGLContext";
   Napi::Function func = DefineClass(
       env, CLASSNAME,
-      {InstanceMethod("extraFunctions", &QOpenGLContextWrap::extraFunctions),
+      {InstanceMethod("injectNodeEventEmitter", &QOpenGLContextWrap::injectNodeEventEmitter),
+       InstanceMethod("extraFunctions", &QOpenGLContextWrap::extraFunctions),
        InstanceMethod("isOpenGLES", &QOpenGLContextWrap::isOpenGLES),
        InstanceMethod("isValid", &QOpenGLContextWrap::isValid),
        StaticMethod("currentContext",
@@ -59,6 +60,19 @@ QOpenGLContextWrap::~QOpenGLContextWrap() {
   if (this->isOwnsInstance) {
     extrautils::safeDelete(this->instance);
   }
+}
+
+Napi::Value QOpenGLContextWrap::injectNodeEventEmitter(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  this->emitOnNode = Napi::Persistent(info[0].As<Napi::Function>());
+
+  QObject::connect(this->instance, &QOpenGLContext::aboutToBeDestroyed, [=]() {
+    Napi::Env env = this->emitOnNode.Env();
+    Napi::HandleScope scope(env);
+    this->emitOnNode.Call({Napi::String::New(env, "AboutToBeDestroyed")});
+  });
+
+  return env.Null();
 }
 
 Napi::Value QOpenGLContextWrap::extraFunctions(const Napi::CallbackInfo& info) {

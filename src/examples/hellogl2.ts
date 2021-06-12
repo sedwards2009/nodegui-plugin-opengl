@@ -23,6 +23,7 @@ import {
   QOpenGLWidget,
   QSurfaceFormat,
 } from '..'
+import { OpenGLContextEventTypes } from '../lib/QOpenGLContext';
 
 const log = console.log.bind(console);
 
@@ -242,6 +243,7 @@ class GLWidget extends EventEmitter {
   }
 
   cleanup(): void {
+    log('cleanup();');
     // if (this._program == null) {
     //     return;
     // }
@@ -261,8 +263,9 @@ class GLWidget extends EventEmitter {
     // the signal will be followed by an invocation of initializeGL() where we
     // can recreate all resources.
 
-    // connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &GLWidget::cleanup);
-    const gl = QOpenGLContext.currentContext().functions();
+    const context = QOpenGLContext.currentContext();
+    context.addEventListener(OpenGLContextEventTypes.AboutToBeDestroyed, () => this.cleanup());
+    const gl = context.functions();
     gl.clearColor(0, 0, 0, 1);
 
     this._program = new QOpenGLShaderProgram();
