@@ -29,6 +29,14 @@ export class QOpenGLVertexArrayObject extends Component {
         this.native.destroy();
     }
 
+    isCreated(): boolean {
+        return this.native.isCreated();
+    }
+
+    objectId(): number {
+        return this.native.objectId();
+    }
+
     release(): void {
         this.native.release();
     }
