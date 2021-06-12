@@ -32,14 +32,20 @@ export class QOpenGLWidget extends NodeWidget<QOpenGLWidgetSignals> {
         this.setNodeParent(parent);
     }
 
+    doneCurrent(): void {
+        this.native.doneCurrent();
+    }
+
+    makeCurrent(): void {
+        this.native.makeCurrent();
+    }
+
     // TODO
     // context() const
     // GLuint 	defaultFramebufferObject() const
-    // void 	doneCurrent()
     // QSurfaceFormat 	format() const
     // QImage 	grabFramebuffer()
     // bool 	isValid() const
-    // void 	makeCurrent()
     // void 	setFormat(const QSurfaceFormat &format)
     // void 	setTextureFormat(GLenum texFormat)
     // void 	setUpdateBehavior(QOpenGLWidget::UpdateBehavior updateBehavior)

@@ -22,5 +22,7 @@ class DLL_EXPORT QOpenGLWidgetWrap
   // class constructor
   static Napi::FunctionReference constructor;
   // wrapped methods
+  Napi::Value doneCurrent(const Napi::CallbackInfo& info);
+  Napi::Value makeCurrent(const Napi::CallbackInfo& info);
   QWIDGET_WRAPPED_METHODS_DECLARATION
 };

@@ -12,7 +12,9 @@ Napi::Object QOpenGLWidgetWrap::init(Napi::Env env, Napi::Object exports) {
   char CLASSNAME[] = "QOpenGLWidget";
   Napi::Function func = DefineClass(
       env, CLASSNAME,
-      {QWIDGET_WRAPPED_METHODS_EXPORT_DEFINE(QOpenGLWidgetWrap)});
+      {InstanceMethod("doneCurrent", &QOpenGLWidgetWrap::doneCurrent),
+      InstanceMethod("makeCurrent", &QOpenGLWidgetWrap::makeCurrent),
+      QWIDGET_WRAPPED_METHODS_EXPORT_DEFINE(QOpenGLWidgetWrap)});
   constructor = Napi::Persistent(func);
   exports.Set(CLASSNAME, func);
   return exports;
@@ -46,4 +48,20 @@ QOpenGLWidgetWrap::QOpenGLWidgetWrap(const Napi::CallbackInfo& info)
   YGNodeSetNodeType(flexNode, YGNodeType::YGNodeTypeText);
   this->rawData =
       extrautils::configureQWidget(this->getInternalInstance(), flexNode, true);
+}
+
+Napi::Value QOpenGLWidgetWrap::doneCurrent(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  this->instance->doneCurrent();
+  return env.Null();
+}
+
+Napi::Value QOpenGLWidgetWrap::makeCurrent(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  this->instance->makeCurrent();
+  return env.Null();
 }
