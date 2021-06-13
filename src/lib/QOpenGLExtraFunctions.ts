@@ -404,6 +404,10 @@ export class QOpenGLExtraFunctions extends Component {
         return this.native.glGetUniformLocation(programId, name);
     }
 
+    getAttribLocation(programId: number, name: string): number {
+        return this.native.glGetAttribLocation(programId, name);
+    }
+
     depthFunc(func: number): void {
         this.native.glDepthFunc(func);
     }

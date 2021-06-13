@@ -27,6 +27,7 @@ Napi::Object QOpenGLExtraFunctionsWrap::init(Napi::Env env,
        InstanceMethod("glEnableVertexAttribArray",
                       &QOpenGLExtraFunctionsWrap::glEnableVertexAttribArray),
        InstanceMethod("glFrontFace", &QOpenGLExtraFunctionsWrap::glFrontFace),
+       InstanceMethod("glGetAttribLocation", &QOpenGLExtraFunctionsWrap::glGetAttribLocation),
        InstanceMethod("glGenBuffer", &QOpenGLExtraFunctionsWrap::glGenBuffer),
        InstanceMethod("glGenVertexArray",
                       &QOpenGLExtraFunctionsWrap::glGenVertexArray),
@@ -416,6 +417,21 @@ Napi::Value QOpenGLExtraFunctionsWrap::glFrontFace(
   auto arg = info[0].As<Napi::Number>().Int32Value();
   this->instance->glFrontFace(arg);
   return env.Null();
+}
+
+Napi::Value QOpenGLExtraFunctionsWrap::glGetAttribLocation(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  if (info.Length() != 2) {
+    Napi::TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
+  }
+
+  GLuint programId = info[0].As<Napi::Number>().Uint32Value();
+  std::string name = info[1].As<Napi::String>().Utf8Value();
+  GLint result = this->instance->glGetAttribLocation(programId, name.data());
+  return Napi::Number::New(env, result);
 }
 
 Napi::Value QOpenGLExtraFunctionsWrap::glCullFace(
