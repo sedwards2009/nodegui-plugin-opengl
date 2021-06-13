@@ -27,8 +27,7 @@ class DLL_EXPORT QOpenGLExtraFunctionsWrap
 
   Napi::Value glActiveTexture(const Napi::CallbackInfo& info);
   Napi::Value glAttachShader(const Napi::CallbackInfo& info);
-  // void 	 glBindAttribLocation(GLuint program, GLuint index, const char
-  // *name)
+  Napi::Value glBindAttribLocation(const Napi::CallbackInfo& info);
   Napi::Value glBindBuffer(const Napi::CallbackInfo& info);
   Napi::Value glBindFramebuffer(const Napi::CallbackInfo& info);
   Napi::Value glBindRenderbuffer(const Napi::CallbackInfo& info);
@@ -95,30 +94,23 @@ class DLL_EXPORT QOpenGLExtraFunctionsWrap
   // glGetBufferParameteriv(GLenum target, GLenum pname, GLint *params)
   Napi::Value glGetError(const Napi::CallbackInfo& info);
   // void 	 glGetFloatv(GLenum pname, GLfloat *params)
-  // void 	 glGetFramebufferAttachmentParameteriv(GLenum target, GLenum
-  // attachment, GLenum pname, GLint *params) void 	 glGetIntegerv(GLenum
-  // pname, GLint *params) void 	 glGetProgramInfoLog(GLuint program, GLsizei
-  // bufsize, GLsizei *length, char *infolog) void 	 glGetProgramiv(GLuint
-  // program, GLenum pname, GLint *params) void
-  // glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params)
-  // void 	 glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei
-  // *length, char *infolog)
+  // void 	 glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params)
+  // void 	 glGetIntegerv(GLenum pname, GLint *params) void 	 glGetProgramInfoLog(GLuint program, GLsizei bufsize, GLsizei *length, char *infolog)
+  // void 	 glGetProgramiv(GLuint program, GLenum pname, GLint *params)
+  // void    glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params)
+  // void 	 glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei *length, char *infolog)
   // void 	 glGetShaderiv(GLuint shader, GLenum pname, GLint *params)
-  // void 	 glGetShaderPrecisionFormat(GLenum shadertype, GLenum
-  // precisiontype, GLint *range, GLint *precision) void
-  // glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei *length, char
-  // *source)
+  // void 	 glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision)
+  // void    glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei *length, char *source)
   Napi::Value glGetString(const Napi::CallbackInfo& info);
-  // void 	 glGetTexParameterfv(GLenum target, GLenum pname, GLfloat
-  // *params) void 	 glGetTexParameteriv(GLenum target, GLenum pname, GLint
-  // *params) void 	 glGetUniformfv(GLuint program, GLint location, GLfloat
-  // *params) void 	 glGetUniformiv(GLuint program, GLint location, GLint
-  // *params) GLint 	 glGetUniformLocation(GLuint program, const char *name)
-  // void 	 glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat
-  // *params) void 	 glGetVertexAttribiv(GLuint index, GLenum pname, GLint
-  // *params)
-  // void 	 glGetVertexAttribPointerv(GLuint index, GLenum pname, void
-  // **pointer)
+  // void 	 glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params)
+  // void 	 glGetTexParameteriv(GLenum target, GLenum pname, GLint *params)
+  // void 	 glGetUniformfv(GLuint program, GLint location, GLfloat *params)
+  // void 	 glGetUniformiv(GLuint program, GLint location, GLint *params)
+  Napi::Value glGetUniformLocation(const Napi::CallbackInfo& info);
+  // void 	 glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params)
+  // void 	 glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params)
+  // void 	 glGetVertexAttribPointerv(GLuint index, GLenum pname, void **pointer)
   Napi::Value glHint(const Napi::CallbackInfo& info);
   Napi::Value glIsBuffer(const Napi::CallbackInfo& info);
   Napi::Value glIsEnabled(const Napi::CallbackInfo& info);
@@ -131,8 +123,7 @@ class DLL_EXPORT QOpenGLExtraFunctionsWrap
   Napi::Value glLinkProgram(const Napi::CallbackInfo& info);
   Napi::Value glPixelStorei(const Napi::CallbackInfo& info);
   Napi::Value glPolygonOffset(const Napi::CallbackInfo& info);
-  // void 	 glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height,
-  // GLenum format, GLenum type, GLvoid *pixels)
+  // void 	 glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels)
   Napi::Value glReleaseShaderCompiler(const Napi::CallbackInfo& info);
   Napi::Value glRenderbufferStorage(const Napi::CallbackInfo& info);
   Napi::Value glSampleCoverage(const Napi::CallbackInfo& info);

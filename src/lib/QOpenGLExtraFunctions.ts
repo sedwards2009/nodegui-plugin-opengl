@@ -400,6 +400,10 @@ export class QOpenGLExtraFunctions extends Component {
         return this.native.glGetString(name);
     }
 
+    getUniformLocation(programId: number, name: string): number {
+        return this.native.glGetUniformLocation(programId, name);
+    }
+
     depthFunc(func: number): void {
         this.native.glDepthFunc(func);
     }
@@ -410,6 +414,10 @@ export class QOpenGLExtraFunctions extends Component {
             result.push(this.native.glGenVertexArray());
         }
         return result;
+    }
+
+    bindAttribLocation(programId: number, index: number, name: string): void {
+        this.native.glBindAttribLocation(programId, index, name);
     }
 
     bindVertexArray(vertexArray: number): void {
@@ -539,7 +547,6 @@ export class QOpenGLExtraFunctions extends Component {
         this.native.glUniform4fv(location, count, buffer);
     }
 
-    //------
     uniform1i(location: number, data: number): void {
         this.uniform1iv(location, 1, [data]);
     }

@@ -48,18 +48,6 @@ class GLTestWidget {
         return this._widget;
     }
 
-    /*
-    OpenGLCubeWidget::~OpenGLCubeWidget() {
-      makeCurrent();
-      delete m_program;
-      delete m_vertexShader;
-      delete m_fragmentShader;
-      delete m_texture;
-      m_buffer.destroy();
-      doneCurrent();
-    }
-*/
-
     private _initializeGL(): void {
         log('_initializeGL');
 
@@ -135,7 +123,7 @@ class GLTestWidget {
         gl.clearColor(0.0, 0.0, 0.0, 0.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        gl.useProgram(this._program);
+        this._program.bind();
         gl.bindVertexArray(this._vao);
 
         gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -148,6 +136,7 @@ class GLTestWidget {
         painter.setPen(new QColor(0, 255, 0));
         painter.drawText(20, 40, `${Math.round(this._frames / (elapsed / 1000.0))} frames per second`);
 
+        this._program.release();
         painter.end();
 
         if (!(this._frames % 100)) {

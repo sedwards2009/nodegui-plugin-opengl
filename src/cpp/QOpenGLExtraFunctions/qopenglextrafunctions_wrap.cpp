@@ -13,6 +13,7 @@ Napi::Object QOpenGLExtraFunctionsWrap::init(Napi::Env env,
   Napi::Function func = DefineClass(
       env, CLASSNAME,
       {InstanceMethod("glBindBuffer", &QOpenGLExtraFunctionsWrap::glBindBuffer),
+       InstanceMethod("glBindAttribLocation", &QOpenGLExtraFunctionsWrap::glBindAttribLocation),
        InstanceMethod("glBindVertexArray",
                       &QOpenGLExtraFunctionsWrap::glBindVertexArray),
        InstanceMethod("glBufferData", &QOpenGLExtraFunctionsWrap::glBufferData),
@@ -30,6 +31,7 @@ Napi::Object QOpenGLExtraFunctionsWrap::init(Napi::Env env,
        InstanceMethod("glGenVertexArray",
                       &QOpenGLExtraFunctionsWrap::glGenVertexArray),
        InstanceMethod("glGetString", &QOpenGLExtraFunctionsWrap::glGetString),
+       InstanceMethod("glGetUniformLocation", &QOpenGLExtraFunctionsWrap::glGetUniformLocation),
        InstanceMethod("glUniform1fv", &QOpenGLExtraFunctionsWrap::glUniform1fv),
        InstanceMethod("glUniform2fv", &QOpenGLExtraFunctionsWrap::glUniform2fv),
        InstanceMethod("glUniform3fv", &QOpenGLExtraFunctionsWrap::glUniform3fv),
@@ -346,6 +348,18 @@ Napi::Value QOpenGLExtraFunctionsWrap::initializeOpenGLFunctions(
   return env.Null();
 }
 
+Napi::Value QOpenGLExtraFunctionsWrap::glBindAttribLocation(
+    const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  GLuint programId = info[0].As<Napi::Number>().Uint32Value();
+  GLuint location = info[1].As<Napi::Number>().Uint32Value();
+  std::string name = info[2].As<Napi::String>().Utf8Value();
+  this->instance->glBindAttribLocation(programId, location, name.data());
+  return env.Null();
+}
+
 Napi::Value QOpenGLExtraFunctionsWrap::glBindBuffer(
     const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -494,6 +508,22 @@ Napi::Value QOpenGLExtraFunctionsWrap::glGetString(
   GLenum name = info[0].As<Napi::Number>().Uint32Value();
   QString result((const char*)(this->instance->glGetString(name)));
   return Napi::String::New(env, result.toStdString());
+}
+
+Napi::Value QOpenGLExtraFunctionsWrap::glGetUniformLocation(
+    const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  if (info.Length() != 2) {
+    Napi::TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
+  }
+
+  GLuint programId = info[0].As<Napi::Number>().Uint32Value();
+  std::string name = info[1].As<Napi::String>().Utf8Value();
+  GLint result = this->instance->glGetUniformLocation(programId, name.data());
+  return Napi::Number::New(env, result);
 }
 
 Napi::Value QOpenGLExtraFunctionsWrap::glDepthFunc(

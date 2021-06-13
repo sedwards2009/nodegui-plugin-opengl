@@ -164,7 +164,8 @@ class GLWidget extends EventEmitter {
     this._proj = mat4.create();
     this._world = mat4.create();
 
-    (this._widget = new QOpenGLWidget()), this._widget.setMinimumSize(50, 50);
+    this._widget = new QOpenGLWidget();
+    this._widget.setMinimumSize(50, 50);
     this._widget.addEventListener('initializeGL', this._initializeGL.bind(this));
     this._widget.addEventListener('paintGL', this._paintGL.bind(this));
     this._widget.addEventListener('resizeGL', this._resizeGL.bind(this));
@@ -292,17 +293,19 @@ class GLWidget extends EventEmitter {
 
     this._checkError(gl);
 
-    this._program.bindAttributeLocation('vertex', 0);
-    this._program.bindAttributeLocation('normal', 1);
+    gl.bindAttribLocation(this._program.programId(), 0, 'vertex');
+    gl.bindAttribLocation(this._program.programId(), 1, 'normal');
+
     this._program.link();
 
     this._checkError(gl);
 
     this._program.bind();
-    this._projMatrixLoc = this._program.uniformLocation('projMatrix');
-    this._mvMatrixLoc = this._program.uniformLocation('mvMatrix');
-    this._normalMatrixLoc = this._program.uniformLocation('normalMatrix');
-    this._lightPosLoc = this._program.uniformLocation('lightPos');
+
+    this._projMatrixLoc = gl.getUniformLocation(this._program.programId(), 'projMatrix');
+    this._mvMatrixLoc = gl.getUniformLocation(this._program.programId(), 'mvMatrix');
+    this._normalMatrixLoc = gl.getUniformLocation(this._program.programId(), 'normalMatrix');
+    this._lightPosLoc = gl.getUniformLocation(this._program.programId(), 'lightPos');
 
     this._checkError(gl);
 
