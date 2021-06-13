@@ -558,7 +558,7 @@ export class QOpenGLExtraFunctions extends Component {
             );
         }
 
-        this.native.glUniform1iv(location, count, data[0]);
+        this.native.glUniform1iv(location, count, buffer);
     }
 
     uniform2i(location: number, data1: number, data2: number): void {

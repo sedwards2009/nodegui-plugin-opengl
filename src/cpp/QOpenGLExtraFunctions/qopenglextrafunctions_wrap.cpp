@@ -613,7 +613,7 @@ Napi::Value QOpenGLExtraFunctionsWrap::glUniform1fv(
 
   GLint location = info[0].As<Napi::Number>().Int32Value();
   GLsizei count = info[1].As<Napi::Number>().Int32Value();
-  Napi::ArrayBuffer data = info[1].As<Napi::ArrayBuffer>();
+  Napi::ArrayBuffer data = info[2].As<Napi::ArrayBuffer>();
   this->instance->glUniform1fv(location, count,
                                static_cast<const GLfloat*>(data.Data()));
   return env.Null();
@@ -685,7 +685,7 @@ Napi::Value QOpenGLExtraFunctionsWrap::glUniform1iv(
 
   GLint location = info[0].As<Napi::Number>().Int32Value();
   GLsizei count = info[1].As<Napi::Number>().Int32Value();
-  Napi::ArrayBuffer data = info[1].As<Napi::ArrayBuffer>();
+  Napi::ArrayBuffer data = info[2].As<Napi::ArrayBuffer>();
   this->instance->glUniform1iv(location, count,
                                static_cast<const GLint*>(data.Data()));
   return env.Null();
