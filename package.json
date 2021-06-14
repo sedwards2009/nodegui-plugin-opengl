@@ -9,6 +9,7 @@
         "postinstall": "npm run build:addon",
         "build:addon": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=8 cmake-js compile",
         "build:ts": "tsc",
+        "demo:cube": "npm run build && qode dist/examples/cube.js",
         "demo:hellogl2": "npm run build && qode dist/examples/hellogl2.js",
         "demo:triangle": "npm run build && qode dist/examples/triangle.js"
     },
