@@ -16,6 +16,7 @@ Napi::Object QSurfaceFormatWrap::init(Napi::Env env, Napi::Object exports) {
                       &QSurfaceFormatWrap::setDepthBufferSize),
        InstanceMethod("setMajorVersion", &QSurfaceFormatWrap::setMajorVersion),
        InstanceMethod("setMinorVersion", &QSurfaceFormatWrap::setMinorVersion),
+       InstanceMethod("setOption", &QSurfaceFormatWrap::setOption),
        InstanceMethod("setProfile", &QSurfaceFormatWrap::setProfile),
        InstanceMethod("setStencilBufferSize",
                       &QSurfaceFormatWrap::setStencilBufferSize),
@@ -102,6 +103,17 @@ Napi::Value QSurfaceFormatWrap::setMinorVersion(
 
   int version = info[0].As<Napi::Number>().Int32Value();
   this->instance->setMinorVersion(version);
+  return env.Null();
+}
+
+Napi::Value QSurfaceFormatWrap::setOption(
+    const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  int option = info[0].As<Napi::Number>().Int32Value();
+  bool on = info[1].As<Napi::Boolean>().Value();
+  this->instance->setOption(static_cast<QSurfaceFormat::FormatOption>(option), on);
   return env.Null();
 }
 

@@ -28,6 +28,7 @@ class DLL_EXPORT QSurfaceFormatWrap
   Napi::Value setStencilBufferSize(const Napi::CallbackInfo& info);
   Napi::Value setMajorVersion(const Napi::CallbackInfo& info);
   Napi::Value setMinorVersion(const Napi::CallbackInfo& info);
+  Napi::Value setOption(const Napi::CallbackInfo& info);
 };
 
 namespace StaticQSurfaceFormatWrapMethods {

@@ -43,8 +43,7 @@ class DLL_EXPORT QOpenGLContextWrap
 
   // QFunctionPointer 	getProcAddress(const QByteArray &procName) const
   // QFunctionPointer 	getProcAddress(const char *procName) const
-  // bool 	hasExtension(const QByteArray &extension) const
-
+  Napi::Value hasExtension(const Napi::CallbackInfo& info);
   Napi::Value isOpenGLES(const Napi::CallbackInfo& info);
   Napi::Value isValid(const Napi::CallbackInfo& info);
 

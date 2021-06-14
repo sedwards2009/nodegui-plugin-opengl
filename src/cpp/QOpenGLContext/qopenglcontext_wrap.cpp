@@ -14,6 +14,7 @@ Napi::Object QOpenGLContextWrap::init(Napi::Env env, Napi::Object exports) {
       env, CLASSNAME,
       {InstanceMethod("injectNodeEventEmitter", &QOpenGLContextWrap::injectNodeEventEmitter),
        InstanceMethod("extraFunctions", &QOpenGLContextWrap::extraFunctions),
+       InstanceMethod("hasExtension", &QOpenGLContextWrap::hasExtension),
        InstanceMethod("isOpenGLES", &QOpenGLContextWrap::isOpenGLES),
        InstanceMethod("isValid", &QOpenGLContextWrap::isValid),
        StaticMethod("currentContext",
@@ -87,6 +88,15 @@ Napi::Value QOpenGLContextWrap::extraFunctions(const Napi::CallbackInfo& info) {
   auto instance = QOpenGLExtraFunctionsWrap::constructor.New(
       {Napi::External<QOpenGLExtraFunctions>::New(env, functions)});
   return instance;
+}
+
+Napi::Value QOpenGLContextWrap::hasExtension(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::HandleScope scope(env);
+
+  std::string name = info[0].As<Napi::String>().Utf8Value();
+  bool result = this->instance->hasExtension(QByteArray(name.data()));
+  return Napi::Boolean::New(env, result);
 }
 
 Napi::Value QOpenGLContextWrap::isOpenGLES(const Napi::CallbackInfo& info) {

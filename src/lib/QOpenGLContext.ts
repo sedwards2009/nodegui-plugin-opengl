@@ -60,6 +60,10 @@ export class QOpenGLContext extends Component {
         return new QOpenGLExtraFunctions(this.native.extraFunctions());
     }
 
+    hasExtension(name: string): boolean {
+        return this.native.hasExtension(name);
+    }
+
     isOpenGLES(): boolean {
         return this.native.isOpenGLES();
     }
